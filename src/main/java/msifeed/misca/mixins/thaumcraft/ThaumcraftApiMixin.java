@@ -30,6 +30,7 @@ public class ThaumcraftApiMixin {
      * This method can take up to 9%-12% of the load time.
      * Try to make it async and hope it doesn't break anything
      */
+
     @Overwrite
     @Deprecated
     public static void registerComplexObjectTag(ItemStack item, AspectList aspects) {
@@ -45,6 +46,7 @@ public class ThaumcraftApiMixin {
      * This method can take up to 7%-10% of the load time.
      * Try to make it async and hope it doesn't break anything
      */
+
     @Overwrite
     @Deprecated
     public static void registerComplexObjectTag(String oreDict, AspectList aspects) {
@@ -53,3 +55,4 @@ public class ThaumcraftApiMixin {
         });
     }
 }
+

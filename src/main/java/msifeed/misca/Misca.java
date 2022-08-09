@@ -21,10 +21,12 @@ import msifeed.misca.regions.CommandRegions;
 import msifeed.misca.regions.RegionControl;
 import msifeed.misca.rename.RenameItems;
 import msifeed.misca.rolls.RollRpc;
+import msifeed.misca.stages.Stages;
 import msifeed.misca.supplies.BackgroundSupplies;
 import msifeed.misca.supplies.InvoiceCommand;
+import msifeed.misca.tags.ItemTagsCommand;
+import msifeed.misca.tags.Tags;
 import msifeed.misca.tweaks.DisableSomeDamageTypes;
-import msifeed.misca.tweaks.DisableSomeWorkstations;
 import msifeed.misca.tweaks.MiscaCrashInfo;
 import msifeed.sys.rpc.RpcChannel;
 import msifeed.sys.sync.SyncChannel;
@@ -36,6 +38,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -70,12 +73,12 @@ public class Misca {
         locks.preInit();
         supplies.preInit();
         Charstate.INSTANCE.preInit();
-        RegionControl.init();
+        RegionControl.preInit();
+        Stages.init();
 
         MinecraftForge.EVENT_BUS.register(new NeedsPotions());
         MinecraftForge.EVENT_BUS.register(new CombatPotions());
         MinecraftForge.EVENT_BUS.register(OtherPotions.class);
-        MinecraftForge.EVENT_BUS.register(new DisableSomeWorkstations());
         MinecraftForge.EVENT_BUS.register(new DisableSomeDamageTypes());
 
         Misca.RPC.register(new RollRpc());
@@ -95,6 +98,8 @@ public class Misca {
         environ.init();
 
         RenameItems.register();
+        Tags.init();
+        RegionControl.init();
 
         if (FMLCommonHandler.instance().getSide().isClient())
             MiscaClient.INSTANCE.init();
@@ -109,6 +114,8 @@ public class Misca {
         LogDB.reload();
         KeeperSync.reload();
         RegionControl.sync();
+        Stages.sync();
+        Tags.sync();
     }
 
     @EventHandler
@@ -128,13 +135,13 @@ public class Misca {
         event.registerServerCommand(new LocksCommand());
         event.registerServerCommand(new InvoiceCommand());
         event.registerServerCommand(new NeedsCommand());
-        event.registerServerCommand(new EffortsCommand());
         event.registerServerCommand(new SkillsCommand());
         event.registerServerCommand(new BlessCommand());
         event.registerServerCommand(new UnstuckCommand());
         event.registerServerCommand(new CommandRegions());
         event.registerServerCommand(new CharsheetCommand());
         event.registerServerCommand(new CommandExternalBook());
+        event.registerServerCommand(new ItemTagsCommand());
     }
 
     @SubscribeEvent

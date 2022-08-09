@@ -3,13 +3,13 @@ package msifeed.misca.chatex;
 import msifeed.misca.Misca;
 import msifeed.misca.MiscaConfig;
 import msifeed.misca.MiscaPerms;
-import msifeed.misca.charsheet.CharEffort;
 import msifeed.misca.chatex.client.LogsSaver;
 import msifeed.misca.chatex.client.TypingState;
-import msifeed.misca.chatex.format.RollFormat;
+import msifeed.misca.chatex.format.EventFormat;
 import msifeed.misca.chatex.format.SpecialSpeechFormat;
 import msifeed.misca.chatex.format.SpeechFormat;
 import msifeed.misca.logdb.LogDB;
+import msifeed.misca.rolls.dice.DiceRoll;
 import msifeed.sys.rpc.RpcContext;
 import msifeed.sys.rpc.RpcMethodHandler;
 import net.minecraft.client.Minecraft;
@@ -81,18 +81,19 @@ public class ChatexRpc {
         LogDB.INSTANCE.log(sender, "offtop", formatted);
     }
 
-    public static void broadcastDiceRoll(EntityPlayerMP sender, String spec, long result) {
+    public static void broadcastDiceRoll(EntityPlayerMP sender, DiceRoll diceRoll) {
         final int range = Misca.getSharedConfig().chat.rollRange;
-        final ITextComponent formatted = RollFormat.dice(sender, spec, result);
+        final ITextComponent formatted = EventFormat.dice(sender, diceRoll);
         Misca.RPC.sendToAllAround(sender, range, rawPos, sender.getPosition(), formatted);
         LogDB.INSTANCE.log(sender, "dice", formatted);
     }
 
-    public static void broadcastEffortRoll(EntityPlayerMP sender, CharEffort effort, int amount, int difficulty, boolean result) {
+    public static void broadcastEvent(EntityPlayerMP sender, String msg) {
         final int range = Misca.getSharedConfig().chat.rollRange;
-        final ITextComponent formatted = RollFormat.effort(sender, effort, amount, difficulty, result);
+        final ITextComponent formatted = EventFormat.message(sender, msg);
+
         Misca.RPC.sendToAllAround(sender, range, rawPos, sender.getPosition(), formatted);
-        LogDB.INSTANCE.log(sender, "effort", formatted);
+        LogDB.INSTANCE.log(sender, "event", formatted);
     }
 
     // // // // Server handlers

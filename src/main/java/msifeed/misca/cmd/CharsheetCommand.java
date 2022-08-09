@@ -2,7 +2,6 @@ package msifeed.misca.cmd;
 
 import msifeed.misca.MiscaPerms;
 import msifeed.misca.charsheet.CharNeed;
-import msifeed.misca.charsheet.CharResource;
 import msifeed.misca.charsheet.ICharsheet;
 import msifeed.misca.charsheet.cap.CharsheetProvider;
 import msifeed.misca.charsheet.cap.CharsheetSync;
@@ -27,7 +26,7 @@ public class CharsheetCommand extends CommandBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/charsheet <who> <dump factor ord seal> [<add set> <value>]";
+        return "/charsheet <who> <dump factor> [<add set> <value>]";
     }
 
     @Override
@@ -36,12 +35,10 @@ public class CharsheetCommand extends CommandBase {
             case 1:
                 return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
             case 2:
-                return getListOfStringsMatchingLastWord(args, "dump", "factor", "ord", "seal");
+                return getListOfStringsMatchingLastWord(args, "dump", "factor");
             case 3:
-                if (args[1].equals("ord") || args[1].equals("seal"))
-                    return getListOfStringsMatchingLastWord(args, "add", "set");
-                else if (args[1].equals("factor"))
-                    return getListOfStringsMatchingLastWord(args, "cor", "int", "san", "sta");
+                if (args[1].equals("factor"))
+                    return getListOfStringsMatchingLastWord(args, "int", "san", "sta");
                 else
                     return Collections.emptyList();
             case 4:
@@ -61,10 +58,8 @@ public class CharsheetCommand extends CommandBase {
         final EntityPlayerMP player = getPlayer(server, sender, args[0]);
         if (args[1].equals("dump")) {
             dump(sender, player);
-        } else if (args[1].equals("factor")) {
-            modifyFactor(sender, player, args);
         } else {
-            modifyRes(sender, player, args);
+            modifyFactor(sender, player, args);
         }
     }
 
@@ -77,13 +72,9 @@ public class CharsheetCommand extends CommandBase {
                         .map(e -> e.getKey().tr() + ' ' + e.getValue())
                         .collect(Collectors.joining(", "))));
         sender.sendMessage(new TextComponentString(
-                "  Effort pools: " + sheet.effortPools().stream()
+                "  Craft pools: " + sheet.crafts().stream()
                         .filter(e -> e.getValue() != 0)
                         .map(e -> e.getKey().tr() + ' ' + e.getValue())
-                        .collect(Collectors.joining(", "))));
-        sender.sendMessage(new TextComponentString(
-                "  Resources: " + sheet.resources().stream()
-                        .map(e -> e.getKey().toString() + ' ' + e.getValue())
                         .collect(Collectors.joining(", "))));
         sender.sendMessage(new TextComponentString(
                 "  Need factors: " + Stream.of(CharNeed.values())
@@ -129,30 +120,5 @@ public class CharsheetCommand extends CommandBase {
 
         sender.sendMessage(new TextComponentString(msg));
         LogDB.INSTANCE.log(sender, "charsheet", msg);
-    }
-
-    private void modifyRes(ICommandSender sender, EntityPlayerMP player, String[] args) throws CommandException {
-        final ICharsheet sheet = CharsheetProvider.get(player);
-
-        final CharResource res;
-        if (args[1].equals("ord")) res = CharResource.ord;
-        else if (args[1].equals("seal")) res = CharResource.seal;
-        else throw new SyntaxErrorException("Unknown resource: " + args[1]);
-
-        if (args.length >= 4 && MiscaPerms.isGameMaster(sender)) {
-            final boolean set = args[2].equalsIgnoreCase("set");
-            final int value = parseInt(args[3], 0, 100);
-            final int curr = sheet.resources().get(res);
-            final int modified = set ? value : value + curr;
-
-            sheet.resources().set(res, modified);
-            CharsheetSync.sync(player);
-
-            final String msg = String.format("Change %s's %s from %d to %d", player.getName(), res, curr, modified);
-            sender.sendMessage(new TextComponentString(msg));
-            LogDB.INSTANCE.log(sender, "charsheet", msg);
-        } else {
-            sender.sendMessage(new TextComponentString(String.format("%s's %s: %d", player.getDisplayNameString(), res, sheet.resources().get(res))));
-        }
     }
 }

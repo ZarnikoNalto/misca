@@ -16,12 +16,8 @@ public interface ICharsheet extends Cloneable {
     String getName();
     void setName(String name);
 
-    String getWikiPage();
-    void setWikiPage(String page);
-
     IntContainer<CharSkill> skills();
-    IntContainer<CharEffort> effortPools();
-    IntContainer<CharResource> resources();
+    IntContainer<CharCraft> crafts();
     FloatContainer<CharNeed> needsGain();
     FloatContainer<CharNeed> needsLost();
 

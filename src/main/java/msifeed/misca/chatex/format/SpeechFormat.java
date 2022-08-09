@@ -27,8 +27,7 @@ public class SpeechFormat {
         final ITextComponent comp = new TextComponentString(name);
         if (sender != null) {
             final ICharsheet cs = CharsheetProvider.get(sender);
-            final String wikiPage = cs.getWikiPage().isEmpty() ? cs.getName() : cs.getWikiPage();
-            final String wikiUrl = Misca.getSharedConfig().chat.wikiUrlBase + wikiPage;
+            final String wikiUrl = Misca.getSharedConfig().chat.wikiUrlBase + sender.getGameProfile().getName();
             comp.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, wikiUrl));
         }
 

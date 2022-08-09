@@ -3,6 +3,8 @@ package msifeed.mellow.render;
 import msifeed.mellow.utils.Geom;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Collection;
@@ -83,6 +85,11 @@ public final class RenderParts {
 
         GL11.glColor4f(1, 1, 1, 1);
         GL11.glPopMatrix();
+    }
+
+    public static void texture(Geom geom, ResourceLocation texture, int width, int height, int textureWidth, int textureHeight) {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+        Gui.drawModalRectWithCustomSizedTexture(geom.x + geom.w / 2 - width / 2, geom.y + geom.h / 2 - height / 2, 0, 0, width, height, textureWidth, textureHeight);
     }
 
     public static class TextPref {

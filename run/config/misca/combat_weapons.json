@@ -5,9 +5,6 @@
     "wizardrySpellTierFactor": 0.5,
     "wizardryContinuousSpellOverheadFactor": 0.0,
     "thaumcraftPowerCost": 0.5,
-    "thaumcraftComplexityFactor": 0.5,
-    "tinkerBowApPerDrawTime": 0.05,
-    "tinkerCrossbowApPerShot": 1.0,
-    "tinkerCrossbowApPerDrawTime": 0.05
+    "thaumcraftComplexityFactor": 0.5
   }
 }

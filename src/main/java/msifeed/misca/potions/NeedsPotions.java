@@ -2,7 +2,6 @@ package msifeed.misca.potions;
 
 import msifeed.misca.Misca;
 import msifeed.misca.charsheet.CharNeed;
-import msifeed.misca.charstate.handler.CorruptionHandler;
 import msifeed.misca.charstate.handler.IntegrityHandler;
 import msifeed.misca.charstate.handler.SanityHandler;
 import msifeed.misca.charstate.handler.StaminaHandler;
@@ -25,11 +24,6 @@ public class NeedsPotions {
     public static final Potion RESTORE_STA = instantDrug(CharNeed.STA, StaminaHandler.STAMINA, "restoreStamina", 5);
     public static final Potion DAMAGE_STA = instant(CharNeed.STA, StaminaHandler.STAMINA, "damageStamina", -5);
 
-    public static final Potion RESTORE_COR = instant(CharNeed.COR, CorruptionHandler.CORRUPTION, "restoreCorruption", 5);
-    public static final Potion DAMAGE_COR = instant(CharNeed.COR, CorruptionHandler.CORRUPTION, "damageCorruption", -5);
-    public static final Potion BUFF_COR = temp(CorruptionHandler.CORRUPTION, "buffCorruption", "621133ab-8d2d-436d-9846-4c77e2d47c51", 0.01, 2);
-    public static final Potion DEBUFF_COR = temp(CorruptionHandler.CORRUPTION, "debuffCorruption", "b52d5b3b-6995-4b95-91df-4fbd6720e2be", -0.01, 2);
-
     @SubscribeEvent
     public void registerPotions(RegistryEvent.Register<Potion> event) {
         event.getRegistry().register(RESTORE_INT);
@@ -42,10 +36,6 @@ public class NeedsPotions {
         event.getRegistry().register(DEBUFF_SAN);
         event.getRegistry().register(RESTORE_STA);
         event.getRegistry().register(DAMAGE_STA);
-        event.getRegistry().register(RESTORE_COR);
-        event.getRegistry().register(DAMAGE_COR);
-        event.getRegistry().register(BUFF_COR);
-        event.getRegistry().register(DEBUFF_COR);
     }
 
     private static Potion instant(CharNeed need, IAttribute attr, String name, double modifier) {

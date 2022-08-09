@@ -1,7 +1,6 @@
 package msifeed.misca.charstate.cap;
 
 import msifeed.misca.Misca;
-import msifeed.misca.charsheet.CharEffort;
 import msifeed.misca.charsheet.CharNeed;
 import msifeed.sys.cap.FloatContainer;
 import net.minecraft.util.ResourceLocation;
@@ -38,8 +37,6 @@ public interface ICharstate {
     default void resetSilenceTime() {
         setSilenceTime(System.currentTimeMillis() / 1000);
     }
-
-    FloatContainer<CharEffort> efforts();
 
     int nonce();
     void incNonce();

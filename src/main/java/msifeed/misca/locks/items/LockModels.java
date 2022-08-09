@@ -8,6 +8,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class LockModels {
+    public static final ModelResourceLocation DIGITAL_LOC_MODEL = getModel(LockItems.lockDigital.getRegistryName());
     public static final ModelResourceLocation MECH_LOC_MODEL = getModel(LockItems.lockMechanical.getRegistryName());
     public static final ModelResourceLocation MAGI_LOC_MODEL = getModel(LockItems.lockMagical.getRegistryName());
 

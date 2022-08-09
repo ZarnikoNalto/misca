@@ -1,0 +1,31 @@
+{
+  "block_stage": {
+    "ebwizardry:arcane_workbench": [
+      "mys_one",
+      "arc_one"
+    ]
+  },
+  "global_stages": {
+    "nether": false
+  },
+  "adjacent_stages": {
+    "mnf_two": [
+      "tch_two"
+    ],
+    "mnf_three": [
+      "tch_three"
+    ],
+    "eng_one": [
+      "tch_one"
+    ],
+    "eng_two": [
+      "tch_two"
+    ],
+    "mnf_one": [
+      "tch_one"
+    ],
+    "eng_three": [
+      "tch_three"
+    ]
+  }
+}

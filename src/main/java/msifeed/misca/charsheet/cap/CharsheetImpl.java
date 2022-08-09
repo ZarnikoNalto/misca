@@ -11,10 +11,8 @@ import java.util.Map;
 
 public class CharsheetImpl implements ICharsheet {
     private String name = "";
-    private String wikiPage = "";
     private final IntContainer<CharSkill> skills = new IntContainer<>(CharSkill.class, 0, 25);
-    private final IntContainer<CharEffort> effortPools = new IntContainer<>(CharEffort.class, 0, 50);
-    private final IntContainer<CharResource> resources = new IntContainer<>(CharResource.class, 0, 1000);
+    private final IntContainer<CharCraft> crafts = new IntContainer<>(CharCraft.class, 0, 50);
     private final FloatContainer<CharNeed> needsRest = new FloatContainer<>(CharNeed.class, 1, 0, 10);
     private final FloatContainer<CharNeed> needsLost = new FloatContainer<>(CharNeed.class, 1, 0, 10);
     private final HashMap<Potion, Integer> potions = new HashMap<>();
@@ -35,28 +33,13 @@ public class CharsheetImpl implements ICharsheet {
     }
 
     @Override
-    public String getWikiPage() {
-        return wikiPage;
-    }
-
-    @Override
-    public void setWikiPage(String page) {
-        this.wikiPage = page;
-    }
-
-    @Override
     public IntContainer<CharSkill> skills() {
         return skills;
     }
 
     @Override
-    public IntContainer<CharEffort> effortPools() {
-        return effortPools;
-    }
-
-    @Override
-    public IntContainer<CharResource> resources() {
-        return resources;
+    public IntContainer<CharCraft> crafts() {
+        return crafts;
     }
 
     @Override
@@ -92,10 +75,7 @@ public class CharsheetImpl implements ICharsheet {
     @Override
     public void replaceWith(ICharsheet charsheet) {
         name = charsheet.getName();
-        wikiPage = charsheet.getWikiPage();
         skills.replaceWith(charsheet.skills());
-        effortPools.replaceWith(charsheet.effortPools());
-        resources.replaceWith(charsheet.resources());
         needsRest.replaceWith(charsheet.needsGain());
         potions.clear();
         potions.putAll(charsheet.potions());

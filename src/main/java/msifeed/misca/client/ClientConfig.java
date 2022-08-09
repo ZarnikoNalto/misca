@@ -9,4 +9,6 @@ public class ClientConfig {
 
     public Point chatSize = new Point(320, 180);
     public boolean logSystemMessages = true;
+    public boolean closeChatAfterMessage = false;
+    public boolean saveChatScrollState = false;
 }

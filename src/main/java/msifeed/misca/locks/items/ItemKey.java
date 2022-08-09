@@ -3,6 +3,8 @@ package msifeed.misca.locks.items;
 import msifeed.misca.locks.LockItems;
 import msifeed.misca.locks.LockUtils;
 import msifeed.misca.locks.Locks;
+import msifeed.misca.locks.cap.ILockHolder;
+import msifeed.misca.locks.cap.LockAccessor;
 import msifeed.misca.locks.cap.key.ILockKey;
 import msifeed.misca.locks.cap.key.LockKeyProvider;
 import net.minecraft.client.util.ITooltipFlag;
@@ -38,6 +40,7 @@ public class ItemKey extends Item implements IUnlockTool {
         setTranslationKey(ID);
         setHasSubtypes(true);
         setCreativeTab(CreativeTabs.TOOLS);
+        setContainerItem(this);
     }
 
     @Override
@@ -60,6 +63,13 @@ public class ItemKey extends Item implements IUnlockTool {
         }
 
         if (Locks.toggleLock(world, pos, key.getSecret())) {
+            final boolean lockState = LockAccessor.createWrap(world, pos).isLocked();
+            if (lockState)
+                sendStatus(player, "Closed the lock!", TextFormatting.GREEN);
+            else
+                sendStatus(player, "Opened the lock!", TextFormatting.GREEN);
+
+
             return EnumActionResult.SUCCESS;
         } else {
             sendStatus(player, "Can't toggle the lock", TextFormatting.RED);
@@ -97,6 +107,17 @@ public class ItemKey extends Item implements IUnlockTool {
             final ILockKey key = LockKeyProvider.get(stack);
             LockKeyProvider.CAP.readNBT(key, null, nbt.getTag("Key"));
         }
+    }
+
+    @Override
+    public boolean hasContainerItem(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public ItemStack getContainerItem(ItemStack stack) {
+        final ILockKey key = LockKeyProvider.get(stack);
+        return createKey(key.getSecret());
     }
 
     public static boolean isBlank(ItemStack stack) {

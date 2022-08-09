@@ -1,6 +1,5 @@
 package msifeed.misca.charstate.cap;
 
-import msifeed.misca.charstate.handler.CorruptionHandler;
 import msifeed.misca.charstate.handler.IntegrityHandler;
 import msifeed.misca.charstate.handler.SanityHandler;
 import msifeed.misca.charstate.handler.StaminaHandler;
@@ -31,7 +30,6 @@ public class CharstateEventHandler {
 
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event) {
-        copyAttr(CorruptionHandler.CORRUPTION, event.getOriginal(), event.getEntityPlayer());
         copyAttr(IntegrityHandler.INTEGRITY, event.getOriginal(), event.getEntityPlayer());
         copyAttr(SanityHandler.SANITY, event.getOriginal(), event.getEntityPlayer());
         copyAttr(StaminaHandler.STAMINA, event.getOriginal(), event.getEntityPlayer());

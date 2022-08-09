@@ -1,3 +1,4 @@
+/*
 package msifeed.misca.mixins.flan;
 
 import com.flansmod.client.model.GunAnimations;
@@ -68,3 +69,4 @@ public class ItemGunMixin {
         CombatFlow.onUse(actor, Combat.getWeapons().get((EntityLivingBase) entity, stack));
     }
 }
+*/

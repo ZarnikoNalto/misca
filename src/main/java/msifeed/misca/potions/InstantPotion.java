@@ -1,7 +1,6 @@
 package msifeed.misca.potions;
 
 import msifeed.misca.charsheet.CharNeed;
-import msifeed.misca.charstate.handler.CorruptionHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
@@ -54,9 +53,6 @@ public class InstantPotion extends Potion {
     }
 
     private void affect(EntityPlayer player, IAttributeInstance inst, int amplifier) {
-        if (CorruptionHandler.isPotionsDisabled(player, need))
-            return;
-
         final double value = modifier * (amplifier + 1);
         inst.setBaseValue(attribute.clampValue(inst.getBaseValue() + value));
     }

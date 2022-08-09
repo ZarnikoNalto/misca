@@ -5,6 +5,7 @@ import msifeed.mellow.utils.Geom;
 
 public abstract class View {
     protected final Geom geometry = new Geom();
+    protected boolean visible = true;
 
     public abstract void render(Geom geom);
 
@@ -32,6 +33,8 @@ public abstract class View {
         geometry.setSize(w, h);
     }
 
+    public void setVisible(boolean visible) { this.visible = visible; }
+
     public boolean isFocusable() {
         return false;
     }
@@ -43,4 +46,6 @@ public abstract class View {
     public boolean isHovered() {
         return FocusState.INSTANCE.isHovered(this);
     }
+
+    public boolean isVisible() { return visible; }
 }

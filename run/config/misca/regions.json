@@ -18,7 +18,63 @@
       "blacklist": [
         "net.minecraft.entity.monster.EntitySpider"
       ],
-      "whitelist": []
+      "whitelist": [],
+      "stages": []
+    },
+    {
+      "name": "Test",
+      "aabb": [
+        -1408,
+        3,
+        770,
+        -1400,
+        9,
+        776
+      ],
+      "needs": {},
+      "toleranceMod": 0.0,
+      "blacklist": [],
+      "whitelist": [],
+      "stages": [
+        "mys_two"
+      ]
+    },
+    {
+      "name": "test1",
+      "aabb": [
+        -1400,
+        3,
+        765,
+        -1390,
+        9,
+        776
+      ],
+      "needs": {},
+      "toleranceMod": 0.0,
+      "blacklist": [],
+      "whitelist": [],
+      "stages": [
+        "arc_two",
+        "mnf_two"
+      ]
+    },
+    {
+      "name": "test2",
+      "aabb": [
+        -1409,
+        3,
+        773,
+        -1400,
+        9,
+        783
+      ],
+      "needs": {},
+      "toleranceMod": 0.0,
+      "blacklist": [],
+      "whitelist": [],
+      "stages": [
+        "arc_two"
+      ]
     }
   ]
 }

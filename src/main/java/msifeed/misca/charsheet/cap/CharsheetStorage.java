@@ -18,10 +18,7 @@ public class CharsheetStorage implements Capability.IStorage<ICharsheet> {
     public NBTBase writeNBT(Capability<ICharsheet> capability, ICharsheet instance, EnumFacing side) {
         final NBTTagCompound nbt = new NBTTagCompound();
         nbt.setString(Tag.name, instance.getName());
-        nbt.setString(Tag.wikiPage, instance.getWikiPage());
         instance.skills().writeNBT(Tag.skills, nbt);
-        instance.effortPools().writeNBT(Tag.effortPools, nbt);
-        instance.resources().writeNBT(Tag.resources, nbt);
         instance.needsGain().writeNBT(Tag.needsRest, nbt);
         instance.needsLost().writeNBT(Tag.needsLost, nbt);
 
@@ -44,10 +41,7 @@ public class CharsheetStorage implements Capability.IStorage<ICharsheet> {
     public void readNBT(Capability<ICharsheet> capability, ICharsheet instance, EnumFacing side, NBTBase nbtBase) {
         final NBTTagCompound nbt = (NBTTagCompound) nbtBase;
         instance.setName(nbt.getString(Tag.name));
-        instance.setWikiPage(nbt.getString(Tag.wikiPage));
         instance.skills().readNBT(nbt, Tag.skills);
-        instance.effortPools().readNBT(nbt, Tag.effortPools);
-        instance.resources().readNBT(nbt, Tag.resources);
         instance.needsGain().readNBT(nbt, Tag.needsRest);
         instance.needsLost().readNBT(nbt, Tag.needsLost);
 
@@ -76,10 +70,7 @@ public class CharsheetStorage implements Capability.IStorage<ICharsheet> {
 
     private static class Tag {
         private static final String name = "name";
-        private static final String wikiPage = "wiki";
         private static final String skills = "skills";
-        private static final String effortPools = "effortPools";
-        private static final String resources = "Resources";
         private static final String needsRest = "needsRest";
         private static final String needsLost = "needsLost";
         private static final String potions = "potions";

@@ -24,31 +24,20 @@ public class CharstateConfig {
     public double staminaCostPerIngredient = 0.5;
     public int craftMaxIngredientsOfOneType = 4;
 
-    public double corruptionSilenceToGainSec = 3600;
-    public double corruptionGainPerSec = 0.00005;
-    public double corruptionLostPerSec = 0.00001;
-    public double corruptionDisablePotionsThreshold = 25;
-    public double corruptionDisableSkillsThreshold = 50;
-    public double corruptionDisableCraft = 75;
+    public double sanitySilenceToLostSec = 3600;
+    public double sanityLostPerSecInSilence = 0.00005;
 
-    public float effortRestPerSec = 0.00027f;
+    public float fitnessIntegrityLostFactor = -0.05f;
+    public float fitnessStaminaLostFactor = -0.05f;
+    public float composureSanityLostFactor = -0.05f;
+    public float coordinationSkillCraftCostFactor = -0.015f;
+    public float fitnessSkillMiningSpeedFactor = 0.11f;
 
-    public float survivalSkillNeedsLostFactor = -0.15f;
-    public float survivalSkillCraftCostFactor = -0.05f;
-    public float survivalSkillEffortsRestFactor = 0.15f;
-    public float workSkillMiningSpeedFactor = 0.33f;
-    public float workSkillCraftCostFactor = -0.02f;
+    public double charismaSanityGainFactor = 0.05;
+    public double charismaStaminaGainFactor = 0.005;
 
-    public double psychologySanityGainFactor = 0.15;
-    public double psychologyStaminaGainFactor = 0.05;
-
-    public double researchSkillFreeCraftChance = 0.1;
-    public double researchSkillRestoreIngredientChance = 0.05;
-
-    public int ordIncreaseAmount = 2;
-    public long ordIncreaseIntervalSec = 24 * 60 * 60;
-    public long ordIncreaseMaxWindowSec = 7 * 24 * 60 * 60;
-    public int ordToSealRate = 40;
+    public double ingenuitySkillFreeCraftChance = 0.03;
+    public double ingenuitySkillRestoreIngredientChance = 0.015;
 
     public int foodEffectThreshold = 16;
     public float foodNeedsRestMod = 0.25f;

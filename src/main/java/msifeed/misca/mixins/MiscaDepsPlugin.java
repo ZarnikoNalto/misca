@@ -25,10 +25,10 @@ public class MiscaDepsPlugin implements IFMLLoadingPlugin {
                 "thaumcraft.common.items.casters.ItemCaster",
                 "electroblob.wizardry.item.ItemWand",
                 "electroblob.wizardry.item.ItemScroll",
-                "slimeknights.tconstruct.library.tools.ranged.BowCore",
-                "slimeknights.tconstruct.tools.ranged.item.CrossBow",
-                "thebetweenlands.common.herblore.elixir.effects.ElixirEffect",
-                "com.codetaylor.mc.artisanworktables.modules.worktables.gui.AWContainer"
+//                "slimeknights.tconstruct.library.tools.ranged.BowCore",
+//                "slimeknights.tconstruct.tools.ranged.item.CrossBow",
+                "thebetweenlands.common.herblore.elixir.effects.ElixirEffect"
+//                "com.codetaylor.mc.artisanworktables.modules.worktables.gui.AWContainer"
             )
             .map(s -> s.replace('.', '/') + ".class")
             .collect(Collectors.toList());

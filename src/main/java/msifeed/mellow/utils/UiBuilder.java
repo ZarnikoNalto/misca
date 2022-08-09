@@ -2,6 +2,7 @@ package msifeed.mellow.utils;
 
 import msifeed.mellow.view.View;
 import msifeed.mellow.view.ViewContainer;
+import net.minecraft.util.math.Vec3i;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -140,6 +141,10 @@ public class UiBuilder {
     public UiBuilder move(int x, int y, int z) {
         getGroup().currView.translate(x, y, z);
         return this;
+    }
+
+    public UiBuilder move(Vec3i pos){
+        return move(pos.getX(), pos.getY(), pos.getZ());
     }
 
     // Group posing

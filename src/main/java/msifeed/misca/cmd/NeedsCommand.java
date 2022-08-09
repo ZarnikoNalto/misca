@@ -4,7 +4,6 @@ import msifeed.misca.MiscaPerms;
 import msifeed.misca.charsheet.CharNeed;
 import msifeed.misca.charstate.cap.CharstateProvider;
 import msifeed.misca.charstate.cap.ICharstate;
-import msifeed.misca.charstate.handler.CorruptionHandler;
 import msifeed.misca.charstate.handler.IntegrityHandler;
 import msifeed.misca.charstate.handler.SanityHandler;
 import msifeed.misca.charstate.handler.StaminaHandler;
@@ -32,7 +31,7 @@ public class NeedsCommand extends CommandBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/needs <who> <int san sta cor> [<add set tolerance> <value>]";
+        return "/needs <who> <int san sta> [<add set tolerance> <value>]";
     }
 
     @Override
@@ -41,7 +40,7 @@ public class NeedsCommand extends CommandBase {
             case 1:
                 return getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
             case 2:
-                return getListOfStringsMatchingLastWord(args,"int", "san", "sta", "cor");
+                return getListOfStringsMatchingLastWord(args,"int", "san", "sta");
             case 3:
                 return getListOfStringsMatchingLastWord(args,"add", "set", "tolerance");
             default:
@@ -96,9 +95,6 @@ public class NeedsCommand extends CommandBase {
             case "sta":
             case "stamina":
                 return StaminaHandler.STAMINA;
-            case "cor":
-            case "corruption":
-                return CorruptionHandler.CORRUPTION;
             default:
                 throw new SyntaxErrorException("Invalid need name");
         }
@@ -115,9 +111,6 @@ public class NeedsCommand extends CommandBase {
             case "sta":
             case "stamina":
                 return CharNeed.STA;
-            case "cor":
-            case "corruption":
-                return CharNeed.COR;
             default:
                 throw new SyntaxErrorException("Invalid need name");
         }

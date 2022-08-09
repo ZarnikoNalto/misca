@@ -30,7 +30,7 @@ public class CommandRegions extends CommandTreeBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/regions <get add delete pest needs>";
+        return "/regions <get add delete pest needs stage>";
     }
 
     public CommandRegions() {
@@ -39,6 +39,7 @@ public class CommandRegions extends CommandTreeBase {
         addSubcommand(new Delete());
         addSubcommand(new CommandPest());
         addSubcommand(new CommandNeedsFactor());
+        addSubcommand(new CommandStage());
     }
 
     private static class Get extends CommandBase {
@@ -77,8 +78,10 @@ public class CommandRegions extends CommandTreeBase {
                 final String whitelist = r.whitelist.stream()
                         .map(Class::getName)
                         .collect(Collectors.joining(", "));
+                final String stages = String.join(", ", r.stages);
                 final String msg = r.name + ":\n" +
                         "  needs: " + needs + '\n' +
+                        "  stages: " + stages + '\n' +
                         "  blacklist: " + blacklist + '\n' +
                         "  whitelist: " + whitelist;
                 sender.sendMessage(new TextComponentString(msg));

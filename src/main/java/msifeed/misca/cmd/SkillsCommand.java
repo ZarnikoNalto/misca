@@ -74,7 +74,7 @@ public class SkillsCommand extends CommandBase {
         try {
             return CharSkill.valueOf(name);
         } catch (Exception e) {
-            throw new SyntaxErrorException("Invalid effort name");
+            throw new SyntaxErrorException("Invalid skill name");
         }
     }
 }

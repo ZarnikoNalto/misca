@@ -8,9 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import slimeknights.tconstruct.library.tools.ProjectileLauncherNBT;
-import slimeknights.tconstruct.library.tools.ranged.BowCore;
-import slimeknights.tconstruct.tools.ranged.item.CrossBow;
+//import slimeknights.tconstruct.library.tools.ProjectileLauncherNBT;
+//import slimeknights.tconstruct.library.tools.ranged.BowCore;
+//import slimeknights.tconstruct.tools.ranged.item.CrossBow;
 import thaumcraft.api.casters.FocusPackage;
 
 public class WeaponInfoGeneration {
@@ -90,7 +90,7 @@ public class WeaponInfoGeneration {
 
         return info;
     }
-
+/*
     public double tinkerBowApPerDrawTime = 0.05;
     public double tinkerCrossbowApPerShot = 1;
     public double tinkerCrossbowApPerDrawTime = 0.05;
@@ -115,5 +115,5 @@ public class WeaponInfoGeneration {
         }
 
         return info;
-    }
+    }*/
 }

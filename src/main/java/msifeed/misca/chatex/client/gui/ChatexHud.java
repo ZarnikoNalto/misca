@@ -4,6 +4,7 @@ import msifeed.misca.MiscaConfig;
 import msifeed.misca.client.ClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
+import net.minecraft.util.text.ITextComponent;
 
 public class ChatexHud extends GuiNewChat {
     private final Minecraft mc = Minecraft.getMinecraft();
@@ -29,5 +30,16 @@ public class ChatexHud extends GuiNewChat {
 
     @Override
     public void clearChatMessages(boolean clearSent) {
+    }
+
+    @Override
+    public void printChatMessage(ITextComponent chatComponent) {
+        super.printChatMessageWithOptionalDeletion(chatComponent, 0);
+
+        if (!MiscaConfig.client.saveChatScrollState) {
+            if (!getChatOpen()) {
+                this.resetScroll();
+            }
+        }
     }
 }

@@ -9,4 +9,5 @@ public class KeeperConfig {
     public String password = "swordfish";
     public String database = "characters";
     public String collection = "characters";
+    public String authDatabase = "admin";
 }

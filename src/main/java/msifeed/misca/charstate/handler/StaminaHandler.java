@@ -60,8 +60,8 @@ public class StaminaHandler {
                 ? staminaPercent / config.staminaMiningSlowdownThreshold
                 : 1;
 
-        final int workSkill = CharSkill.hardworking.get(player);
-        final double speedFactor = 1 + workSkill * config.workSkillMiningSpeedFactor;
+        final int workSkill = CharSkill.fitness.get(player);
+        final double speedFactor = 1 + workSkill * config.fitnessSkillMiningSpeedFactor;
         final double newSpeed = event.getNewSpeed() * config.globalMiningSpeedModifier * staminaFactor * speedFactor;
         event.setNewSpeed((float) newSpeed);
     }
@@ -71,8 +71,8 @@ public class StaminaHandler {
         final CharstateConfig config = Misca.getSharedConfig().charstate;
         final ICharstate state = CharstateProvider.get(player);
 
-        final int researchLevel = CharSkill.research.get(player);
-        final double restoreChance = researchLevel * config.researchSkillRestoreIngredientChance;
+        final int researchLevel = CharSkill.ingenuity.get(player);
+        final double restoreChance = researchLevel * config.ingenuitySkillRestoreIngredientChance;
         for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++) {
             final ItemStack stack = event.craftMatrix.getStackInSlot(i);
             if (stack.getCount() == stack.getMaxStackSize())
@@ -86,7 +86,7 @@ public class StaminaHandler {
         if (!player.world.isRemote) {
             CharstateSync.syncNonce((EntityPlayerMP) player);
 
-            final double freeChance = researchLevel * config.researchSkillFreeCraftChance;
+            final double freeChance = researchLevel * config.ingenuitySkillFreeCraftChance;
             if (Dices.check(freeChance)) {
                 // Free craft!
                 return;
@@ -128,31 +128,27 @@ public class StaminaHandler {
     public static double getCraftCost(EntityPlayer player, int ingredients) {
         final CharstateConfig config = Misca.getSharedConfig().charstate;
 
-        final int survivalSkill = CharSkill.survival.get(player);
-        final int workSkill = CharSkill.hardworking.get(player);
-        final double factor = Math.max(0.1, 1 + survivalSkill * config.survivalSkillCraftCostFactor + workSkill * config.workSkillCraftCostFactor);
+        final int coordSkill = CharSkill.coordination.get(player);
+        final double factor = Math.max(0.1, 1 + coordSkill * config.coordinationSkillCraftCostFactor);
 
         return ingredients * config.staminaCostPerIngredient * factor * CharNeed.STA.lostFactor(player);
     }
 
     public static boolean canCraft(EntityPlayer player, int ingredients) {
-        if (CorruptionHandler.isCraftDisabled(player))
-            return false;
-
         final IAttributeInstance inst = player.getEntityAttribute(STAMINA);
         return inst.getBaseValue() >= getCraftCost(player, ingredients);
     }
 
     public static double getStaminaForDelivery(EntityPlayer player) {
         final CharstateConfig config = Misca.getSharedConfig().charstate;
-        final double factor = 1 + CharSkill.survival.get(player) * -config.survivalSkillNeedsLostFactor; // factor >= 1
+        final double factor = 1 + CharSkill.fitness.get(player) * -config.fitnessStaminaLostFactor; // factor >= 1
         final IAttributeInstance inst = player.getEntityAttribute(STAMINA);
         return inst.getBaseValue() * factor;
     }
 
     public static void consumeDelivery(EntityPlayer player, double amount) {
         final CharstateConfig config = Misca.getSharedConfig().charstate;
-        final double factor = 1 + CharSkill.survival.get(player) * config.survivalSkillNeedsLostFactor; // factor <= 1
+        final double factor = 1 + CharSkill.fitness.get(player) * config.fitnessStaminaLostFactor; // factor <= 1
         final double lost = amount * factor * CharNeed.STA.lostFactor(player);
 
         final IAttributeInstance inst = player.getEntityAttribute(STAMINA);

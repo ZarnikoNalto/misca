@@ -4,6 +4,7 @@ import msifeed.misca.Misca;
 import msifeed.misca.charsheet.CharNeed;
 import msifeed.misca.charsheet.CharSkill;
 import msifeed.misca.charstate.CharstateConfig;
+import msifeed.misca.charstate.cap.CharstateProvider;
 import msifeed.misca.combat.CharAttribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
@@ -31,8 +32,18 @@ public class SanityHandler {
         // TODO: a way disable darkness for nocturnal players
         final CharstateConfig config = Misca.getSharedConfig().charstate;
         final int light = player.world.getLight(player.getPosition(), false);
-        final double sanPerSec = light < 7 ? config.sanityCostPerSecInDarkness : config.sanityCostPerSec;
-        final double factor = Math.max(0, 1 + factorMod + CharSkill.survival.get(player) * config.survivalSkillNeedsLostFactor);
+        final long passedInSilence = CharstateProvider.get(player).passedInSilence();
+        double sanPerSec = config.sanityCostPerSec;
+
+        if (light < 7) {
+            sanPerSec = config.sanityCostPerSecInDarkness;
+        }
+
+        if (passedInSilence > config.sanitySilenceToLostSec) {
+            sanPerSec -= config.sanityLostPerSecInSilence;
+        }
+
+        final double factor = Math.max(0, 1 + factorMod + CharSkill.composure.get(player) * config.composureSanityLostFactor);
         final double lost = secs * sanPerSec * factor * CharNeed.SAN.lostFactor(player);
 
         final IAttributeInstance inst = player.getEntityAttribute(SANITY);
@@ -59,7 +70,7 @@ public class SanityHandler {
 
     public void handleDamage(EntityPlayer player, float amount) {
         final CharstateConfig config = Misca.getSharedConfig().charstate;
-        final double factor = Math.max(0, 1 + CharSkill.survival.get(player) * config.survivalSkillNeedsLostFactor);
+        final double factor = Math.max(0, 1 + CharSkill.composure.get(player) * config.composureSanityLostFactor);
         final double lost = amount * config.sanityCostPerDamage * factor * CharNeed.SAN.lostFactor(player);
 
         final IAttributeInstance inst = player.getEntityAttribute(SANITY);
@@ -86,6 +97,8 @@ public class SanityHandler {
 
         final IAttributeInstance inst = listener.getEntityAttribute(SANITY);
         inst.setBaseValue(SANITY.clampValue(inst.getBaseValue() + restored));
+
+        CharstateProvider.get(listener).resetSilenceTime();
     }
 
     /**

@@ -1,6 +1,5 @@
 package msifeed.misca.charstate.cap;
 
-import msifeed.misca.charsheet.CharEffort;
 import msifeed.misca.charsheet.CharNeed;
 import msifeed.sys.cap.FloatContainer;
 
@@ -10,7 +9,6 @@ public class CharstateImpl implements ICharstate {
     private long silenceTime;
     private int nonce;
 
-    private final FloatContainer<CharEffort> efforts = new FloatContainer<>(CharEffort.class, 0, 0, 50);
     private final FloatContainer<CharNeed> tolerances = new FloatContainer<>(CharNeed.class, 0, 0, 1);
 
     @Override
@@ -44,11 +42,6 @@ public class CharstateImpl implements ICharstate {
     }
 
     @Override
-    public FloatContainer<CharEffort> efforts() {
-        return efforts;
-    }
-
-    @Override
     public int nonce() {
         return nonce;
     }
@@ -74,7 +67,6 @@ public class CharstateImpl implements ICharstate {
         miningTime = other.getMiningTime();
         silenceTime = other.getSilenceTime();
         nonce = other.nonce();
-        efforts.replaceWith(other.efforts());
         tolerances.replaceWith(other.tolerances());
     }
 }

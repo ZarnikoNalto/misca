@@ -1,6 +1,5 @@
 key.categories.misca=Misca
 key.misca.charsheet=Charsheet
-key.misca.effort=Efforts
 key.misca.combat=Combat
 
 item.blank_key.name=Ключ-болванка
@@ -11,56 +10,66 @@ item.lock_digital.name=Цифровой замок
 item.lock_magical.name=Рунический замок
 item.pick_mechanical.name=Отмычка
 item.pick_magical.name=Калибровщик рун
+item.key_ring.name=Связка ключей
 item.supplies_invoice.name=Supplies invoice
 item.supplies_beacon.name=Supplies beacon
 item.combat_tool.name=Combat tool
 item.note_sign.name=Знак-заметка
 item.external_book.name=Внешняя книга
+item.combat_tool.name=Health tool
 
 misca.chatex.speech=%s: %s
 misca.chatex.offtop=[OFF] %s: %s
 misca.chatex.global=[GLOB] %s: %s
 misca.chatex.gmGlobal=[GMGL] %s: %s
 misca.chatex.dice=[DICE] %s: %s = %d
-misca.chatex.effort=[EFFORT] %s: %s %d/%d = %s
 
-enum.misca.effort.impact=Воздействие
-enum.misca.effort.knowledge=Знание
-enum.misca.effort.reflection=Размышление
-enum.misca.effort.confidence=Уверенность
-enum.misca.effort.reputation=Репутация
+misca.roll.crit=Критический бросок!
+misca.roll.crit.dice=Куб крита
+misca.roll.crit.mod=Мод крита
+misca.roll.d20=Базовый куб
+misca.roll.base=Бросок
+misca.roll.advantage=С преимуществом
+misca.roll.disadvantage=С помехой
 
-enum.misca.skill.psychology=Психология
-enum.misca.skill.management=Управление
-enum.misca.skill.thievery=Воровство
-enum.misca.skill.survival=Выживание
-enum.misca.skill.hardworking=Работа
-enum.misca.skill.biology=Биология
-enum.misca.skill.engineering=Инженерия
-enum.misca.skill.sorcery=Колдовство
-enum.misca.skill.research=Исследование
-enum.misca.skill.blacksmith=Кузнечество
+misca.defense.title=Порог Защиты
+misca.defense.base=Базовый порог
+misca.defense.armorpenalty=Штраф брони
+misca.defense.shield=Щит
+misca.defense.towershield=Башенный щит
+
+misca.event.knockout=%s теряет сознание!
+misca.event.getup=%s приходит в себя!
+
+enum.misca.craft.arc=Аркана
+enum.misca.craft.mys=Мистика
+enum.misca.craft.enc=Зачарование
+enum.misca.craft.alc=Алхимия
+enum.misca.craft.eng=Инженерия
+enum.misca.craft.mnf=Производство
+enum.misca.craft.inf=Информатика
+enum.misca.craft.chm=Химия
+enum.misca.craft.smt=Кузнечество
+
+enum.misca.skill.fitness=Тренированность
+enum.misca.skill.fitness.description=Физическая сила, выносливость персонажа, умение управляться с чем-то тяжелым и крупным
+enum.misca.skill.perception=Восприятие
+enum.misca.skill.perception.description=Работа всех органов чувств, умение выделить нужные детали окружения
+enum.misca.skill.agility=Проворство
+enum.misca.skill.agility.description=Способности сделать что-либо быстро, время реакции
+enum.misca.skill.coordination=Координация
+enum.misca.skill.coordination.description=Способности сделать что-либо без ошибок, контроль над своим телом
+enum.misca.skill.ingenuity=Изобретательность
+enum.misca.skill.ingenuity.description=Воображение, творческий склад ума, критическое мышление, импровизация, принятие нового, адаптация к быстро изменяющимся условиям
+enum.misca.skill.tech=Техника
+enum.misca.skill.tech.description=Общее представление персонажа о технических концепциях и науках. Познания в материальной сфере
 enum.misca.skill.magic=Магия
+enum.misca.skill.magic.description=Общее представление персонажа о магических концепциях и искусствах. Познания в магической, эфемерной, религиозной сферах
+enum.misca.skill.charisma=Обаяние
+enum.misca.skill.charisma.description=Харизма, эмпатия персонажа, познания в сфере психологии, житейский опыт
+enum.misca.skill.composure=Самообладание
+enum.misca.skill.composure.description=Решительность, смелость, уверенность персонажа, контроль над своим разумом
 
-enum.misca.resource.est=Эститенция
-enum.misca.resource.ord=Ордеция
-enum.misca.resource.seal=Печати
-
-enum.misca.attribute.str=СИЛ
-enum.misca.attribute.per=ВСП
-enum.misca.attribute.end=ВЫН
-enum.misca.attribute.ref=РЕФ
-enum.misca.attribute.agi=ЛОВ
-enum.misca.attribute.lck=УДЧ
-
-enum.misca.attribute.full.str=Мастерство
-enum.misca.attribute.full.per=Восприятие
-enum.misca.attribute.full.end=Стойкость
-enum.misca.attribute.full.ref=Рефлексы
-enum.misca.attribute.full.agi=Подвижность
-enum.misca.attribute.full.lck=Удача
-
-enum.misca.need.cor=ИСК
 enum.misca.need.int=ЦЕЛ
 enum.misca.need.san=МЕН
 enum.misca.need.sta=УСТ
@@ -73,26 +82,74 @@ enum.misca.combat.event.neutralDamage=нейтр. урон
 enum.misca.combat.event.magicBackfire=маг. отдача
 enum.misca.combat.event.death=умер
 
-gui.misca.submit=Применить
+enum.misca.stage.arc_one=Аркана 1
+enum.misca.stage.arc_two=Аркана 2
+enum.misca.stage.arc_three=Аркана 3
+enum.misca.stage.mys_one=Мистика 1
+enum.misca.stage.mys_two=Мистика 2
+enum.misca.stage.mys_three=Мистика 3
+enum.misca.stage.enc_one=Зачарование 1
+enum.misca.stage.enc_two=Зачарование 2
+enum.misca.stage.enc_three=Зачарование 3
+enum.misca.stage.alc_one=Алхимия 1
+enum.misca.stage.alc_two=Алхимия 2
+enum.misca.stage.alc_three=Алхимия 3
+enum.misca.stage.eng_one=Инженерия 1
+enum.misca.stage.eng_two=Инженерия 2
+enum.misca.stage.eng_three=Инженерия 3
+enum.misca.stage.mnf_one=Производство 1
+enum.misca.stage.mnf_two=Производство 2
+enum.misca.stage.mnf_three=Производство 3
+enum.misca.stage.inf_one=Информатика 1
+enum.misca.stage.inf_two=Информатика 2
+enum.misca.stage.inf_three=Информатика 3
+enum.misca.stage.chm_one=Химия 1
+enum.misca.stage.chm_two=Химия 2
+enum.misca.stage.chm_three=Химия 3
+enum.misca.stage.smt_one=Кузнечество 1
+enum.misca.stage.smt_two=Кузнечество 2
+enum.misca.stage.smt_three=Кузнечество 3
+enum.misca.stage.tch_one=Техника 1
+enum.misca.stage.tch_two=Техника 2
+enum.misca.stage.tch_three=Техника 3
 
-gui.misca.efforts=Усилия %s
-gui.misca.efforts.diff=Сложность
-gui.misca.efforts.amount=Затраты
-gui.misca.efforts.chance=Шанс: %d%%
+enum.misca.tag.fitness=§c[Тренированность]§r
+enum.misca.tag.perception=§9[Восприятие]§r
+enum.misca.tag.agility=§a[Проворство]§r
+enum.misca.tag.coordination=§3[Координация]§r
+enum.misca.tag.ingenuity=§e[Изобретательность]§r
+enum.misca.tag.tech=§1[Техника]§r
+enum.misca.tag.magic=§5[Магия]§r
+enum.misca.tag.charisma=§d[Обаяние]§r
+enum.misca.tag.composure=§6[Самообладание]§r
+enum.misca.tag.veryslow=§8[Очень медленное]§r
+enum.misca.tag.slow=§7[Медленное]§r
+enum.misca.tag.normal=§f[Обычное]§r
+enum.misca.tag.fast=§2[Быстрое]§r
+enum.misca.tag.veryfast=§a[Очень быстрое]§r
+enum.misca.tag.shield=§7[Щит]§r
+enum.misca.tag.towershield=§8[Ростовой щит]§r
+enum.misca.tag.onehanded=§a[Одноручное]§r
+enum.misca.tag.twohanded=§c[Двуручное]§r
+enum.misca.tag.throwable=§f[Метательное]§r
+enum.misca.tag.special=§6[Особый предмет]§r
+enum.misca.tag.polearm=§2[Древковое]§r
 
-gui.misca.attrs=Атрибуты %s
+gui.misca.settings=Настройки
 
-gui.misca.combat=Бой
-gui.misca.combat.finishTurn=Закончить ход
-gui.misca.combat.leaveQueue=Выйти из очереди
-gui.misca.combat.joinQueue=Вступить в очередь
-gui.misca.combat.init=Создать бой
-gui.misca.combat.train=Тренировка
-gui.misca.combat.start=Начать бой
-gui.misca.combat.add=Добавить ближайших
-gui.misca.combat.exit=Выйти из боя
-gui.misca.combat.destroy=Уничтожить бой
+gui.misca.character=Персонаж
+gui.misca.character.name=Имя
+gui.misca.character.name.description=Имя для отображения в чате. Обязательно поставьте перед началом игры
+gui.misca.character.save=Применить
+gui.misca.character.save.description=Сохранить указанное имя
+gui.misca.character.general=Общее
+gui.misca.character.general.description=Общие настройки персонажа
 
-gui.misca.charsheet=Персонаж %s
-gui.misca.charsheet.name=Имя
-gui.misca.charsheet.wiki=Вики
+gui.misca.rolls=Броски кубов
+gui.misca.rolls.mod=Модификаторы
+gui.misca.rolls.mod.description=Укажите здесь модификаторы к броскам. Примеры: +10; -2; +2d6-3
+gui.misca.rolls.skills=Навыки
+gui.misca.rolls.skills.description=Броски на навыки
+
+hud.misca.no_craft=Вам нужно одно из ремёсел %s, чтобы этим пользоваться!
+hud.misca.workshop=Вы находитесь в мастерской %s

@@ -3,13 +3,18 @@ package msifeed.misca.chatex.client.gui;
 import msifeed.mellow.FocusState;
 import msifeed.mellow.MellowScreen;
 import msifeed.mellow.render.RenderUtils;
+import msifeed.mellow.view.button.ButtonIcon;
+import msifeed.mellow.view.button.ButtonLabel;
 import msifeed.mellow.view.text.TextInput;
 import msifeed.mellow.view.text.backend.AutoCompleter;
 import msifeed.misca.Misca;
+import msifeed.misca.MiscaConfig;
 import msifeed.misca.chatex.ChatexRpc;
 import msifeed.misca.chatex.client.TypingState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ITabCompleter;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -17,21 +22,29 @@ import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import vazkii.quark.base.network.message.MessageRequestEmote;
+import vazkii.arl.network.NetworkHandler;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ChatexScreen extends MellowScreen implements ITabCompleter {
     private static final int MAX_MSG_BYTES = 20000;
+    private static final List<String> EMOTE_NAME_LIST = Arrays.asList(Misca.getSharedConfig().chat.emotesList);
 
     private final ChatexHud hud = (ChatexHud) Minecraft.getMinecraft().ingameGUI.getChatGUI();
     private final TextInput input = new TextInput();
     private final ResizeHandle resizer = new ResizeHandle();
     private final AutoCompleter autoCompleter = new AutoCompleter(input.getBackend());
+    private final ButtonLabel emotesButton = new ButtonLabel(I18n.format("quark.gui.emotes"));
 
     private int historyCursor = 0;
     private String historyInputBuffer = "";
+    private static boolean emotesVisible = false;
+    private List<ButtonIcon> emoteButtons = new LinkedList<>();
 
     public ChatexScreen(String text) {
         input.getBackend().setMaxLines(100);
@@ -39,8 +52,19 @@ public class ChatexScreen extends MellowScreen implements ITabCompleter {
         input.getTextOffset().setPos(2, 3);
         input.insert(text);
 
+        emotesButton.setCallback(this::toggleEmotes);
+
+        for (String emote : EMOTE_NAME_LIST) {
+            final ButtonIcon emoteButton = new ButtonIcon(new ResourceLocation("quark", "textures/emotes/" + emote + ".png"), 16, 16);
+            emoteButton.setVisible(emotesVisible);
+            emoteButton.setCallback(() -> performEmote(emote));
+            container.addView(emoteButton);
+            emoteButtons.add(emoteButton);
+        }
+
         container.addView(input);
         container.addView(resizer);
+        container.addView(emotesButton);
     }
 
     @Override
@@ -59,6 +83,28 @@ public class ChatexScreen extends MellowScreen implements ITabCompleter {
 
         resizer.getScreenSize().set(width, height);
         resizer.resetPos();
+
+        int emotesX = width - 79;
+        int emotesY = height - inputLineHeight - 30;
+        int emoteRowCount = 0;
+        final int emoteIconSize = 24;
+        final int emoteMaxRowCount = 3;
+
+        emotesButton.setPos(emotesX, emotesY, 1);
+        emotesButton.setSize(74, 20);
+
+        emotesY -= emoteIconSize + 1;
+
+        for (ButtonIcon emoteButton : emoteButtons) {
+            emoteButton.setSize(emoteIconSize, emoteIconSize);
+            emoteButton.setPos(emotesX + emoteRowCount * (emoteIconSize + 1), emotesY, 1);
+            emoteRowCount++;
+
+            if (emoteRowCount >= emoteMaxRowCount) {
+                emoteRowCount = 0;
+                emotesY -= emoteIconSize + 1;
+            }
+        }
     }
 
     @Override
@@ -172,6 +218,14 @@ public class ChatexScreen extends MellowScreen implements ITabCompleter {
 
         hud.addToSentMessages(text);
         historyCursor = 0;
+
+        if (!MiscaConfig.client.saveChatScrollState) {
+            hud.resetScroll();
+        }
+
+        if (MiscaConfig.client.closeChatAfterMessage) {
+            Minecraft.getMinecraft().displayGuiScreen(null);
+        }
     }
 
     private void sendCommand(String msg) {
@@ -216,5 +270,17 @@ public class ChatexScreen extends MellowScreen implements ITabCompleter {
             autoCompleter.completePrev();
         else
             autoCompleter.completeNext();
+    }
+
+    private void toggleEmotes() {
+        emotesVisible = !emotesVisible;
+
+        for (ButtonIcon emoteButton : emoteButtons) {
+            emoteButton.setVisible(emotesVisible);
+        }
+    }
+
+    private void performEmote(String emote) {
+        NetworkHandler.INSTANCE.sendToServer(new MessageRequestEmote(emote));
     }
 }

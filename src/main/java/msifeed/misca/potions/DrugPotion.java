@@ -9,7 +9,6 @@ import msifeed.misca.charstate.CharstateConfig;
 import msifeed.misca.charstate.cap.CharstateProvider;
 import msifeed.misca.charstate.cap.CharstateSync;
 import msifeed.misca.charstate.cap.ICharstate;
-import msifeed.misca.charstate.handler.CorruptionHandler;
 import msifeed.misca.charstate.handler.SanityHandler;
 import msifeed.sys.cap.FloatContainer;
 import net.minecraft.client.Minecraft;
@@ -74,9 +73,6 @@ public class DrugPotion extends Potion {
     }
 
     private void affect(EntityPlayer player, IAttributeInstance inst, int amplifier) {
-        if (CorruptionHandler.isPotionsDisabled(player, need))
-            return;
-
         final CharstateConfig config = Misca.getSharedConfig().charstate;
         final ICharstate state = CharstateProvider.get(player);
 

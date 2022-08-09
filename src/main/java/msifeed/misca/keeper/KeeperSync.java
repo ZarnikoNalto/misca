@@ -7,10 +7,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import msifeed.misca.MiscaConfig;
-import msifeed.misca.charsheet.CharEffort;
-import msifeed.misca.charsheet.CharResource;
-import msifeed.misca.charsheet.CharSkill;
-import msifeed.misca.charsheet.ICharsheet;
+import msifeed.misca.charsheet.*;
 import msifeed.misca.charsheet.cap.CharsheetProvider;
 import msifeed.misca.combat.CharAttribute;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -32,10 +29,10 @@ public enum KeeperSync {
         final KeeperConfig cfg = MiscaConfig.keeper;
         if (cfg.disabled) return;
 
-        final String conn = String.format("mongodb://%s:%s@%s:%d/%s",
+        final String conn = String.format("mongodb://%s:%s@%s:%d/%s?authSource=%s",
                 cfg.username, cfg.password,
                 cfg.host, cfg.port,
-                cfg.database);
+                cfg.database, cfg.authDatabase);
 
         try {
             LOG.info("Try to connect to Keeper DB...");
@@ -75,15 +72,11 @@ public enum KeeperSync {
             LOG.info("Found entry: " + new Gson().toJson(sheet));
 
             final ICharsheet cs = CharsheetProvider.get(player);
-            cs.resources().set(CharResource.est, sheet.special_stats.get("est"));
-//        for (CharResource key : CharResource.values())
-//            cs.resources().set(key, sheet.special_stats.getOrDefault(key.name(), 0));
+
             for (CharSkill key : CharSkill.values())
                 cs.skills().set(key, sheet.skills.getOrDefault(key.name(), 0));
-            for (CharEffort key : CharEffort.values())
-                cs.effortPools().set(key, sheet.efforts.getOrDefault(key.name(), 0));
-            for (CharAttribute key : CharAttribute.values())
-                key.setBase(player, sheet.attributes.getOrDefault(key.name(), 0));
+            for (CharCraft key : CharCraft.values())
+                cs.crafts().set(key, sheet.crafts.getOrDefault(key.name(), 0));
         } catch (Exception e) {
             LOG.error("Failed to get info from Keeper", e);
         }

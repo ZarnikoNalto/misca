@@ -39,7 +39,7 @@ public class IntegrityHandler {
 
     public void handleDamage(EntityPlayer player, float amount) {
         final CharstateConfig config = Misca.getSharedConfig().charstate;
-        final double factor = Math.max(0, 1 + CharSkill.survival.get(player) * config.survivalSkillNeedsLostFactor);
+        final double factor = Math.max(0, 1 + CharSkill.fitness.get(player) * config.fitnessIntegrityLostFactor);
         final double lost = amount * config.integrityCostPerDamage * factor * CharNeed.INT.lostFactor(player);
 
         final IAttributeInstance inst = player.getEntityAttribute(INTEGRITY);

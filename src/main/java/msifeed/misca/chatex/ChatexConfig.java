@@ -6,6 +6,20 @@ public class ChatexConfig {
     public String wikiUrlBase = "https://wiki.ariadna.su/w/";
     public int offtopRange = 15;
     public int rollRange = 15;
+    public String[] emotesList = new String[] {
+        "no",
+        "yes",
+        "wave",
+        "salute",
+        "cheer",
+        "clap",
+        "think",
+        "point",
+        "shrug",
+        "headbang",
+        "weep",
+        "facepalm"
+    };
 
     public int[] speechRanges = {2, 5, 15, 30, 60};
 

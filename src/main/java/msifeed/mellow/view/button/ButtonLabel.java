@@ -8,14 +8,11 @@ import msifeed.mellow.view.InputHandler;
 import msifeed.mellow.view.View;
 import net.minecraft.client.Minecraft;
 
-public class ButtonLabel extends View implements InputHandler.MouseClick {
+public class ButtonLabel extends Button {
     protected String text = "";
     protected RenderParts.TextPref pref = new RenderParts.TextPref();
     protected Geom textOffset = new Geom(2, 2, 0, 0);
     protected int textWidth = 0;
-
-    protected int colorNormal = 0xffffffff;
-    protected int colorHover = 0xff707070;
 
     protected boolean enabled = true;
     protected Runnable callback = () -> {};
@@ -40,31 +37,14 @@ public class ButtonLabel extends View implements InputHandler.MouseClick {
         this.textWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(text);
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public void setCallback(Runnable callback) {
-        this.callback = callback;
-    }
-
     @Override
     public void render(Geom geom) {
-        final int color = isEnabled() && isHovered() ? colorHover : colorNormal;
-        RenderShapes.rect(geom, 0xbb000000);
+        if (isVisible()) {
+            final int color = isEnabled() && isHovered() ? colorHover : colorNormal;
+            RenderShapes.rect(geom, color);
 
-        final Geom textGeom = geom.add(textOffset);
-        RenderParts.string(text, textGeom, color, pref);
-    }
-
-    @Override
-    public void onMouseClick(int mouseX, int mouseY, int button) {
-        if (isEnabled()) {
-            callback.run();
+            final Geom textGeom = geom.add(textOffset);
+            RenderParts.string(text, textGeom, 0xffffffff, pref);
         }
     }
 }

@@ -1,8 +1,10 @@
 package msifeed.misca.locks;
 
+import com.sun.jna.platform.win32.Guid;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.Random;
+import java.util.UUID;
 
 public class LockUtils {
     public static int generateSecret(int pins, int positions) {
@@ -11,11 +13,14 @@ public class LockUtils {
 
         final Random random = new Random();
 
+
+        //Why not using Java.UUID instead?
         int secret = 0;
         for (int i = 0; i < pins; i++) {
             final int v = random.nextInt(positions) + 1;
             secret |= v << i * 4;
         }
+
         return secret;
     }
 

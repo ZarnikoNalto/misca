@@ -41,6 +41,7 @@ public class RegionConfig extends HashMap<Integer, List<RegionConfig.Region>> {
         public double toleranceMod = 0;
         public List<Class<?>> blacklist = new ArrayList<>();
         public List<Class<?>> whitelist = new ArrayList<>();
+        public List<String> stages = new ArrayList<>();
 
         public boolean contains(Vec3d pos) {
             return aabb == null || aabb.contains(pos);

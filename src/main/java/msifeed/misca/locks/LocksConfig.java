@@ -9,7 +9,7 @@ public class LocksConfig {
     public Map<ResourceLocation, Lookup> tileless = new HashMap<>();
 
     public int setupKeysCount = 2;
-    public int defaultPinPositions = 3;
+    public int keyRingMaxKeys = 16;
     public double pinPickChanceBase = 0.5;
     public double pinPickChancePosMod = 0.01;
     public double pickBreakChance = 0.05;

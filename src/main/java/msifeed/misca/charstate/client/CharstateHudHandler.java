@@ -2,7 +2,6 @@ package msifeed.misca.charstate.client;
 
 import msifeed.mellow.render.RenderUtils;
 import msifeed.misca.Misca;
-import msifeed.misca.charstate.handler.CorruptionHandler;
 import msifeed.misca.charstate.handler.IntegrityHandler;
 import msifeed.misca.charstate.handler.SanityHandler;
 import msifeed.misca.charstate.handler.StaminaHandler;
@@ -41,11 +40,6 @@ public class CharstateHudHandler {
             final String staminaText = String.format("%.0f%%", stamina);
             final double staminaLevel = Math.floor(stamina / 25);
 
-            final IAttributeInstance corruptionInstance = player.getEntityAttribute(CorruptionHandler.CORRUPTION);
-            final double corruption = corruptionInstance.getAttributeValue();
-            final String corruptionText = String.format("%.0f%%", corruption);
-            final double corruptionLevel = Math.floor((100 - corruption) / 25);
-
             final IAttributeInstance sanityInstance = player.getEntityAttribute(SanityHandler.SANITY);
             final double sanity = sanityInstance.getAttributeValue();
             final String sanityText = String.format("%.0f%%", sanity);
@@ -63,7 +57,6 @@ public class CharstateHudHandler {
             GlStateManager.translate(0, 0, -999);
             gui.drawString(mc.fontRenderer, integrityText, xLeft, y, 16777215);
             gui.drawString(mc.fontRenderer, staminaText, xRight - mc.fontRenderer.getStringWidth(staminaText), y, 16777215);
-            gui.drawString(mc.fontRenderer, corruptionText, xLeft, y - 13, 16777215);
             gui.drawString(mc.fontRenderer, sanityText, xRight - mc.fontRenderer.getStringWidth(sanityText), y - 13, 16777215);
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
@@ -74,7 +67,6 @@ public class CharstateHudHandler {
             Minecraft.getMinecraft().getTextureManager().bindTexture(STATS);
             gui.drawTexturedModalRect((xLeft - 14) * 4, (y - 2) * 4, 0, 48 * (3 - (int)Math.min(integrityLevel, 3)), 48, 48);
             gui.drawTexturedModalRect((xRight + 2) * 4, (y - 2) * 4, 48, 48 * (3 - (int)Math.min(staminaLevel, 3)), 48, 48);
-            gui.drawTexturedModalRect((xLeft - 14) * 4, (y - 15) * 4, 96, 48 * (3 - (int)Math.min(corruptionLevel, 3)), 48, 48);
             gui.drawTexturedModalRect((xRight + 2) * 4, (y - 15) * 4, 144, 48 * (3 - (int)Math.min(sanityLevel, 3)), 48, 48);
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();

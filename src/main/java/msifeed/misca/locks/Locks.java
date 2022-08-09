@@ -10,20 +10,31 @@ import msifeed.misca.locks.cap.chunk.IChunkLockable;
 import msifeed.misca.locks.cap.key.ILockKey;
 import msifeed.misca.locks.cap.key.LockKeyImpl;
 import msifeed.misca.locks.cap.key.LockKeyStorage;
-import msifeed.misca.locks.cap.lock.ILockable;
-import msifeed.misca.locks.cap.lock.LockableImpl;
-import msifeed.misca.locks.cap.lock.LockableProvider;
-import msifeed.misca.locks.cap.lock.LockableStorage;
+import msifeed.misca.locks.cap.keyring.IKeyRing;
+import msifeed.misca.locks.cap.keyring.KeyRingImpl;
+import msifeed.misca.locks.cap.keyring.KeyRingStorage;
+import msifeed.misca.locks.cap.lock.ILock;
+import msifeed.misca.locks.cap.lock.LockImpl;
+import msifeed.misca.locks.cap.lock.LockStorage;
+import msifeed.misca.locks.cap.lockable.ILockable;
+import msifeed.misca.locks.cap.lockable.LockableImpl;
+import msifeed.misca.locks.cap.lockable.LockableProvider;
+import msifeed.misca.locks.cap.lockable.LockableStorage;
 import msifeed.misca.locks.cap.pick.ILockPick;
 import msifeed.misca.locks.cap.pick.LockPickImpl;
 import msifeed.misca.locks.cap.pick.LockPickStorage;
+import msifeed.misca.locks.items.ItemLock;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ChunkProviderServer;
@@ -45,6 +56,9 @@ public class Locks {
         CapabilityManager.INSTANCE.register(IChunkLockable.class, new ChunkLockableStorage(), ChunkLockableImpl::new);
         CapabilityManager.INSTANCE.register(ILockKey.class, new LockKeyStorage(), LockKeyImpl::new);
         CapabilityManager.INSTANCE.register(ILockPick.class, new LockPickStorage(), LockPickImpl::new);
+        CapabilityManager.INSTANCE.register(ILock.class, new LockStorage(), LockImpl::new);
+        CapabilityManager.INSTANCE.register(IKeyRing.class, new KeyRingStorage(), KeyRingImpl::new);
+
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new LockItems());
@@ -115,10 +129,17 @@ public class Locks {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockEvent.BreakEvent event) {
-        if (LockAccessor.isLocked(event.getWorld(), event.getPos())) {
+        final World world = event.getWorld();
+        final BlockPos pos = event.getPos();
+        if (LockAccessor.isLocked(world, pos)) {
             event.setCanceled(true);
         } else {
-            removeLock(event.getWorld(), event.getPos());
+            final ILockHolder lock = LockAccessor.createWrap(world, pos);
+            if (lock != null && lock.getSecret() != 0) {
+                world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), ItemLock.createLock(lock.getType(), lock.getSecret())));
+            }
+
+            removeLock(world, pos);
         }
     }
 
@@ -133,6 +154,17 @@ public class Locks {
         final ILockHolder lock = LockAccessor.createWrap(world, pos);
 
         if (lock != null && lock.hasSecret() && lock.canOpenWith(key)) {
+            lock.setLocked(!lock.isLocked());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean toggleLock(World world, BlockPos pos, IKeyRing keyRing) {
+        final ILockHolder lock = LockAccessor.createWrap(world, pos);
+
+        if (lock != null && lock.hasSecret() && keyRing.checkSecret(lock.getSecret())) {
             lock.setLocked(!lock.isLocked());
             return true;
         } else {

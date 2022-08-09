@@ -17,7 +17,6 @@ public class CharstateStorage implements Capability.IStorage<ICharstate> {
         nbt.setLong("SilenceTime", instance.getSilenceTime());
         nbt.setInteger("Nonce", instance.nonce());
 
-        instance.efforts().writeNBT("Efforts", nbt);
         instance.tolerances().writeNBT("Tolerances", nbt);
         return nbt;
     }
@@ -30,7 +29,6 @@ public class CharstateStorage implements Capability.IStorage<ICharstate> {
         instance.setSilenceTime(nbt.getLong("SilenceTime"));
         instance.setNonce(nbt.getInteger("Nonce"));
 
-        instance.efforts().readNBT(nbt, "Efforts");
         instance.tolerances().readNBT(nbt, "Tolerances");
     }
 }

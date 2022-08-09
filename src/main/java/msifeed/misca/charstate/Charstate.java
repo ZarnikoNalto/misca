@@ -14,6 +14,7 @@ import msifeed.misca.combat.battle.BattleManager;
 import msifeed.misca.combat.cap.CombatantProvider;
 import msifeed.misca.combat.cap.ICombatant;
 import msifeed.misca.regions.RegionControl;
+import msifeed.misca.stages.StageCharacter;
 import msifeed.sys.cap.FloatContainer;
 import msifeed.sys.sync.SyncChannel;
 import net.minecraft.entity.EntityLivingBase;
@@ -44,8 +45,6 @@ public enum Charstate {
     private final IntegrityHandler integrityHandler = new IntegrityHandler();
     private final SanityHandler sanityHandler = new SanityHandler();
     private final StaminaHandler staminaHandler = new StaminaHandler();
-    private final CorruptionHandler corruptionHandler = new CorruptionHandler();
-    private final EffortsHandler effortsHandler = new EffortsHandler();
     private final EffectsHandler effectsHandler = new EffectsHandler();
 
     public static class ItemEffectsConfig extends HashMap<ResourceLocation, ItemEffectInfo[]> {
@@ -81,7 +80,6 @@ public enum Charstate {
         attributes.registerAttribute(IntegrityHandler.INTEGRITY);
         attributes.registerAttribute(SanityHandler.SANITY);
         attributes.registerAttribute(StaminaHandler.STAMINA);
-        attributes.registerAttribute(CorruptionHandler.CORRUPTION);
     }
 
     @SubscribeEvent
@@ -91,7 +89,6 @@ public enum Charstate {
         copyAttribute(src, dst, IntegrityHandler.INTEGRITY);
         copyAttribute(src, dst, SanityHandler.SANITY);
         copyAttribute(src, dst, StaminaHandler.STAMINA);
-        copyAttribute(src, dst, CorruptionHandler.CORRUPTION);
     }
 
     private static void copyAttribute(AbstractAttributeMap src, AbstractAttributeMap dst, IAttribute attr) {
@@ -119,8 +116,6 @@ public enum Charstate {
         integrityHandler.handleTime(player, passedSec, effects.getOrDefault(CharNeed.INT, 0d));
         sanityHandler.handleTime(player, UPDATE_INTERVAL_SEC, effects.getOrDefault(CharNeed.SAN, 0d));
         staminaHandler.handleTime(player, passedSec, effects.getOrDefault(CharNeed.STA, 0d));
-        corruptionHandler.handleTime(player, passedSec, UPDATE_INTERVAL_SEC);
-        effortsHandler.handleTime(player, passedSec);
 
         tickTolerances(player, state.tolerances(), passedSec);
 
@@ -177,9 +172,9 @@ public enum Charstate {
         final double threshold = range * chat.garble.thresholdPart;
         final int chars = event.getMessage().length();
 
-        final int psychology = CharSkill.psychology.get(source);
-        final double psySanityMod = config.psychologySanityGainFactor * psychology;
-        final double psyStaminaMod = config.psychologyStaminaGainFactor * psychology;
+        final int charisma = CharSkill.charisma.get(source);
+        final double chaSanityMod = config.charismaSanityGainFactor * charisma;
+        final double chaStaminaMod = config.charismaStaminaGainFactor * charisma;
 
         for (EntityPlayer listener : source.world.playerEntities) {
             if (listener == source) continue;
@@ -193,9 +188,8 @@ public enum Charstate {
                     ? -(distance - threshold) / range
                     : 0;
 
-            sanityHandler.handleSpeech(listener, chars, distanceMod + psySanityMod, regionEffects.getOrDefault(CharNeed.SAN, 0d));
-            staminaHandler.handleSpeech(listener, chars, distanceMod + psyStaminaMod, regionEffects.getOrDefault(CharNeed.STA, 0d));
-            corruptionHandler.handleSpeech(listener);
+            sanityHandler.handleSpeech(listener, chars, distanceMod + chaSanityMod, regionEffects.getOrDefault(CharNeed.SAN, 0d));
+            staminaHandler.handleSpeech(listener, chars, distanceMod + chaStaminaMod, regionEffects.getOrDefault(CharNeed.STA, 0d));
         }
     }
 

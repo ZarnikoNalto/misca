@@ -61,7 +61,7 @@ public class ItemPick extends Item implements IUnlockTool {
         if (!player.isSneaking()) return EnumActionResult.FAIL;
         if (hand != EnumHand.MAIN_HAND) return EnumActionResult.FAIL;
 
-        final int thievery = CharSkill.thievery.get(player);
+        final int thievery = CharSkill.coordination.get(player);
         if (thievery < 1) return EnumActionResult.FAIL;
 
         final ILockHolder lock = LockAccessor.createWrap(world, pos);
@@ -102,7 +102,7 @@ public class ItemPick extends Item implements IUnlockTool {
             final int pin = LockUtils.getFirstFreePin(pick.getSecret(), pinsTried);
             final int pos = LockUtils.getPinPos(pick.getSecret(), pin);
 
-            final int skill = CharSkill.thievery.get(player);
+            final int skill = CharSkill.coordination.get(player);
             final int maxPin = 2 + skill * 2;
             if (pin > maxPin) return;
 

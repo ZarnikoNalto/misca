@@ -5,6 +5,7 @@ import msifeed.misca.combat.ItemCombatTool;
 import msifeed.misca.content.*;
 import msifeed.misca.supplies.ItemSuppliesBeacon;
 import msifeed.misca.supplies.ItemSuppliesInvoice;
+import msifeed.misca.tools.ItemHealthTool;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -31,6 +32,7 @@ public enum MiscaThings {
     public static final Item combatTool = new ItemCombatTool();
     public static final Item itemNote = new ItemNotification();
     public static final Item externalBook = new ItemExternalBook();
+    public static final Item healthTool = new ItemHealthTool();
 
     public static final Block standingNote = new BlockStandingNote();
     public static final Block wallNote = new BlockWallNote();
@@ -57,7 +59,8 @@ public enum MiscaThings {
                 suppliesBeacon,
                 combatTool,
                 itemNote,
-                externalBook
+                externalBook,
+                healthTool
         );
     }
 
@@ -77,7 +80,8 @@ public enum MiscaThings {
                 suppliesBeacon,
                 combatTool,
                 itemNote,
-                externalBook
+                externalBook,
+                healthTool
         ).forEach(MiscaThings::registerItemModel);
     }
 

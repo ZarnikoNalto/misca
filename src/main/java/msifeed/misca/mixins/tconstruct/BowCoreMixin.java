@@ -1,3 +1,4 @@
+/*
 package msifeed.misca.mixins.tconstruct;
 
 import msifeed.misca.combat.Combat;
@@ -43,3 +44,4 @@ public class BowCoreMixin {
         CombatFlow.onAttack(actor, weapon);
     }
 }
+*/

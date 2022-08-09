@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import slimeknights.tconstruct.library.tools.ranged.BowCore;
+//import slimeknights.tconstruct.library.tools.ranged.BowCore;
 import thaumcraft.api.casters.FocusPackage;
 import thaumcraft.api.casters.ICaster;
 import thaumcraft.common.items.casters.ItemFocus;
@@ -27,8 +27,8 @@ public class WeaponRegistry {
             return getCasterInfo(stack, (ICaster) item);
         else if (item instanceof ISpellCastingItem)
             return getSpellInfo(holder, stack);
-        else if (item instanceof BowCore)
-            return getTinckerBow(stack);
+/*        else if (item instanceof BowCore)
+            return getTinckerBow(stack);*/
         else
             return getItemInfo(item);
     }
@@ -48,13 +48,13 @@ public class WeaponRegistry {
         final WeaponInfo override = getOverride(focus.getRegistryName());
         return generation.generateFocusInfo(core, override);
     }
-
-    public WeaponInfo getTinckerBow(ItemStack stack) {
-        final BowCore core = (BowCore) stack.getItem();
-        final WeaponInfo override = getOverride(core.getRegistryName());
-        return generation.generateTinkerBow(stack, core, override);
-    }
-
+    /*
+        public WeaponInfo getTinckerBow(ItemStack stack) {
+            final BowCore core = (BowCore) stack.getItem();
+            final WeaponInfo override = getOverride(core.getRegistryName());
+            return generation.generateTinkerBow(stack, core, override);
+        }
+    */
     public WeaponInfo getItemInfo(Item item) {
         final WeaponInfo info = overrides.get(item.getRegistryName());
         return info != null ? info : generation.generateItemInfo(item);
